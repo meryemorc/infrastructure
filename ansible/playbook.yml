@@ -1,0 +1,24 @@
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: Sunucuyu güncelle
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Nginx kur
+      yum:
+        name: nginx
+        state: present
+
+    - name: Nginx’i başlat
+      systemd:
+        name: nginx
+        state: started
+        enabled: true
+
+    - name: index.html dosyasını kopyala
+      copy:
+        src: template/index.html
+        dest: /usr/share/nginx/html/index.html
